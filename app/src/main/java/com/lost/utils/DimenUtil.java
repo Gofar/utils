@@ -29,15 +29,4 @@ public class DimenUtil {
         float scaleDensity = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue / scaleDensity + 0.5f);
     }
-
-//    public static float sp2px(float spValue, int type) {
-//        switch (type) {
-//            case CHINESE:
-//                return spValue * scaledDensity;
-//            case NUMBER_OR_CHARACTER:
-//                return spValue * scaledDensity * 10.0f / 18.0f;
-//            default:
-//                return spValue * scaledDensity;
-//        }
-//    }
 }
