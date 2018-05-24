@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:columnCount="5"
+        app:rowCount="5">
+
+        <TextView
+            android:background="#FF8749"
+            android:text="12311"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <View
+            android:layout_width="1px"
+            android:background="@color/black"
+            app:layout_gravity="fill"
+            app:layout_rowSpan="5" />
+
+        <TextView
+            android:background="#18FF49"
+            android:text="123567"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <View
+            android:layout_width="1px"
+            android:background="@color/black"
+            app:layout_gravity="fill"
+            app:layout_rowSpan="5" />
+
+        <TextView
+            android:background="#1487FF"
+            android:text="23424"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <!--<View-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="@color/black"-->
+        <!--app:layout_columnSpan="5"-->
+        <!--app:layout_gravity="fill" />-->
+        <TextView
+            android:background="#FF589e"
+            android:text="1232123112131"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:background="#12FFe9"
+            android:text="123123221"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:background="#2123FF"
+            android:text="123122231"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:background="#d3d700"
+            android:text="123123133"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <!--<View-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="@color/black"-->
+        <!--app:layout_columnSpan="5"-->
+        <!--app:layout_gravity="fill" />-->
+
+        <TextView
+            android:background="#148779"
+            android:text="23424"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:background="#34efFF"
+            android:text="23424"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+    </android.support.v7.widget.GridLayout>
+</LinearLayout>
