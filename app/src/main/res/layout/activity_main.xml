@@ -10,9 +10,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="菜单Dic" />
+
     <Button
         android:id="@+id/btn_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="菜单String"/>
+        android:text="菜单String" />
+
+    <Button
+        android:id="@+id/btn_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="性别" />
+
+    <TextView
+        android:id="@+id/tv_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <FrameLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#000000">
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="?android:attr/colorBackground">
+
+        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

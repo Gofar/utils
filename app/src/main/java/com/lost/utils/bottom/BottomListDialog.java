@@ -26,6 +26,8 @@ public class BottomListDialog extends BottomSheetDialogFragment {
 
     private RecyclerView mRvMenu;
     private TextView mTvCancel;
+    private float mTextSize;
+    private int mTextColor = Color.parseColor("#238cfe");
     private MenuAdapter mAdapter;
     private CharSequence mCancelText = "取消";
     private OnMenuItemClickListener mOnMenuItemClickListener;
@@ -84,12 +86,24 @@ public class BottomListDialog extends BottomSheetDialogFragment {
             });
         }
         mTvCancel.setText(mCancelText);
+        if (mTextSize > 0) {
+            mTvCancel.setTextSize(mTextSize);
+        }
+        mTvCancel.setTextColor(mTextColor);
         mTvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+    }
+
+    public void setTextSize(float textSize) {
+        this.mTextSize = textSize;
+    }
+
+    public void setTextColor(int textColor) {
+        this.mTextColor = textColor;
     }
 
     public void setAdapter(MenuAdapter adapter) {

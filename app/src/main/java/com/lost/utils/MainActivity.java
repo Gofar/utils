@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.lost.utils.bottom.BottomListDialog;
 import com.lost.utils.bottom.MenuAdapter;
@@ -24,6 +25,11 @@ public class MainActivity extends FragmentActivity {
     private StringMenuAdapter mAdapter2;
     private BottomListDialog mDialog2;
 
+    private TextView mTvSex;
+    private SexMenuAdpater mAdpater3;
+    private BottomListDialog mDialog3;
+    private int mSex;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,14 @@ public class MainActivity extends FragmentActivity {
                 mDialog2.show(getSupportFragmentManager(), "string menu");
             }
         });
+
+        findViewById(R.id.btn_sex).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog3.show(getSupportFragmentManager(), "sex menu");
+            }
+        });
+        mTvSex = findViewById(R.id.tv_sex);
 
         mAdapter1 = new DicMenuAdapter(createDicList());
         mDialog1 = new BottomListDialog();
@@ -61,6 +75,18 @@ public class MainActivity extends FragmentActivity {
             public void onItemClick(MenuAdapter adapter, int position) {
                 String s = mAdapter2.getData().get(position);
                 ToastUtils.showShort(MainActivity.this, "menu:" + s);
+            }
+        });
+
+        mAdpater3 = new SexMenuAdpater(createSexList());
+        mDialog3 = new BottomListDialog();
+        mDialog3.setAdapter(mAdpater3);
+        mDialog3.setOnMenuItemClickListener(new BottomListDialog.OnMenuItemClickListener() {
+            @Override
+            public void onItemClick(MenuAdapter adapter, int position) {
+                SexMenuEntity entity = mAdpater3.getData().get(position);
+                mTvSex.setText(entity.getText());
+                mSex = entity.getValue();
             }
         });
     }
@@ -103,5 +129,12 @@ public class MainActivity extends FragmentActivity {
         stringList.add("menu4");
         stringList.add("menu5");
         return stringList;
+    }
+
+    private List<SexMenuEntity> createSexList() {
+        List<SexMenuEntity> sexMenuEntityList = new ArrayList<>();
+        sexMenuEntityList.add(new SexMenuEntity("男", 0));
+        sexMenuEntityList.add(new SexMenuEntity("女", 1));
+        return sexMenuEntityList;
     }
 }
