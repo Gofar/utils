@@ -2,6 +2,7 @@ package com.lost.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -15,21 +16,26 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
+ * Media and camera compat method.
+ *
  * @author lcf
  * @date 2018/5/31 14:07
  * @since 1.0
  */
 public class MediaStoreCompat {
-    private WeakReference<Activity> mContext;
-    private WeakReference<Fragment> mFragment;
+    private final WeakReference<Activity> mContext;
+    private final WeakReference<Fragment> mFragment;
     private String mAuthority;
     private Uri mCurrentPhotoUri;
 
@@ -56,6 +62,7 @@ public class MediaStoreCompat {
 
     /**
      * Set FileProvider Authority.
+     *
      * @param authority provider authority
      */
     public void setAuthority(String authority) {
@@ -64,7 +71,8 @@ public class MediaStoreCompat {
 
     /**
      * open Camera
-     * @param context a context to start camera.
+     *
+     * @param context     a context to start camera.
      * @param requestCode request code
      */
     public void dispatchIntentCapture(Context context, int requestCode) {
@@ -78,6 +86,9 @@ public class MediaStoreCompat {
             }
             if (photoFile != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (TextUtils.isEmpty(mAuthority)) {
+                        throw new IllegalArgumentException("FileProvider need set authority!");
+                    }
                     mCurrentPhotoUri = FileProvider.getUriForFile(context, mAuthority, photoFile);
                 } else {
                     mCurrentPhotoUri = Uri.fromFile(photoFile);
@@ -94,22 +105,53 @@ public class MediaStoreCompat {
 
     /**
      * Take photo saved file.
+     *
      * @return saved file
      * @throws IOException IOException
      */
-    private File createImageFile() throws IOException{
-        String timestamp = SimpleDateFormat.getDateTimeInstance().format(new Date());
+    private File createImageFile() throws IOException {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
         String imageFileName = "out_" + timestamp + ".jpg";
-        File dir = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
-        return new File(dir, imageFileName);
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        return new File(dir + imageFileName);
     }
 
     /**
      * The uri of current photo.
+     *
      * @return uri
      */
     public Uri getCurrentPhotoUri() {
         return mCurrentPhotoUri;
+    }
+
+    /**
+     * Install apk
+     *
+     * @param context   a context to install
+     * @param authority fileprovider authority
+     * @param file      apk file
+     */
+    public static void installApk(Context context, String authority, File file) {
+        try {
+            Uri uri;
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                uri = FileProvider.getUriForFile(context, authority, file);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            } else {
+                uri = Uri.fromFile(file);
+            }
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            if (context instanceof Application) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("MediaStoreCompat", "install apk failed,delete file.");
+            file.deleteOnExit();
+        }
     }
 
     /**
